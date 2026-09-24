@@ -1,0 +1,195 @@
+/* Tomer Porian: personal site. Plain CSS, no dependencies. */
+
+:root {
+  --bg: #FFFDF6;          /* cream page background */
+  --text: #000;
+  --link: #0057E1;
+  /* Plain Helvetica first: its metrics match the original Wix font (Linotype Helvetica)
+     so line breaks and line heights line up; Helvetica Neue next, then Arial. */
+  --font: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  --column: 594px;        /* text column width on desktop */
+}
+
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0 20px 160px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 18px;
+  line-height: 1.8;       /* 32.4px */
+  overflow-wrap: break-word;
+}
+
+a {
+  color: var(--link);
+  text-decoration: underline;
+}
+
+/* Bold inside body text (publication titles, "AI reasoning mechanisms").
+   The original site had no bold face for body text, so the browser thickened the
+   regular letters instead. A thin stroke on the regular face gives the same look and
+   keeps the regular letter widths, so lines break exactly where they did.
+   Browsers without text-stroke fall back to ordinary bold. */
+.pub-title {
+  font-weight: 700;
+}
+
+@supports (-webkit-text-stroke: 1px black) {
+  .about b,
+  .pub-title,
+  .pub-title * {
+    font-weight: 400;
+    -webkit-text-stroke: 0.045em currentColor;
+  }
+}
+
+/* ---------- Header: name + icon links ---------- */
+
+h1 {
+  margin: 14px 0 0;
+  font-size: 60px;
+  line-height: 84px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.social {
+  display: flex;
+  justify-content: center;
+  gap: 34px;              /* 28px icons on a 62px pitch */
+  margin-top: 20px;
+}
+
+.social a {
+  display: block;
+  line-height: 0;
+}
+
+.social img {
+  display: block;
+  width: 28px;
+  height: 28px;
+  object-fit: cover;
+}
+
+/* ---------- Portrait ---------- */
+
+.portrait {
+  display: block;
+  width: 241px;
+  height: 254px;
+  /* Centered the way the original is: 121px left of the middle (the width is odd). */
+  margin: 43px 0 0 calc(50% - 121px);
+  object-fit: cover;
+}
+
+/* ---------- Text column ---------- */
+
+.about,
+.publications {
+  max-width: var(--column);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about {
+  margin-top: 41px;
+}
+
+.about p {
+  margin: 0;
+}
+
+.about p + p {
+  margin-top: 1.8em;      /* one blank line, as on the original */
+}
+
+.publications {
+  margin-top: 66px;
+}
+
+.publications h2 {
+  margin: 0 0 25px;
+  font-size: 38px;
+  line-height: 44px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.pub {
+  margin: 0;
+}
+
+/* ---------- Phones ---------- */
+/* The original's phone layout is a 320px-wide page scaled to the screen width.
+   --u is 1/320 of the page width, so every size below is that layout's value in px.
+   Container units (cqw) measure the body, so a desktop scrollbar can never cause
+   sideways scrolling; browsers without them use vw instead. */
+
+@media (max-width: 440px) {
+  body {
+    container-type: inline-size;
+    padding: 0 0 57.5vw;  /* 184 units of blank space below the last entry */
+  }
+
+  body > * {
+    --u: 0.3125vw;
+  }
+
+  @supports (width: 1cqw) {
+    body > * {
+      --u: 0.3125cqw;
+    }
+  }
+
+  h1 {
+    margin-top: calc(var(--u) * 25);
+    font-size: calc(var(--u) * 32);
+    line-height: 1.4;
+  }
+
+  .social {
+    gap: calc(var(--u) * 26);
+    margin-top: calc(var(--u) * 24);
+  }
+
+  .social img {
+    width: calc(var(--u) * 31);
+    height: calc(var(--u) * 31);
+  }
+
+  .portrait {
+    width: calc(var(--u) * 170);
+    height: calc(var(--u) * 179);
+    margin: calc(var(--u) * 34) auto 0;
+  }
+
+  .about,
+  .publications {
+    max-width: none;
+    width: calc(var(--u) * 280);
+  }
+
+  .about {
+    margin-top: calc(var(--u) * 39);
+    font-size: calc(var(--u) * 16);
+  }
+
+  .publications {
+    margin-top: calc(var(--u) * 62);
+    font-size: calc(var(--u) * 17);
+  }
+
+  .publications h2 {
+    margin-bottom: calc(var(--u) * 10);
+    font-size: calc(var(--u) * 25);
+    line-height: calc(var(--u) * 30);
+  }
+}
